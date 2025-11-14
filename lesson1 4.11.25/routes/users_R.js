@@ -4,4 +4,6 @@ const {getAllUsers} =  require('../controller/users_C.js');
 router.get('/', getAllUsers);
 
 
+
+
 module.exports = router;

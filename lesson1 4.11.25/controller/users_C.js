@@ -1,9 +1,12 @@
 const {getAll} = require('../model/users_M.js');
 async function getAllUsers(req, res) {
     try {
-        console.log("hi");
-        rows = await getAll();
-        res.status(200).json({message: "OK"});
+        
+        let users = await getAll();
+        if(users.length == 0){
+            return res.status(400).json({message:"no users found"});
+        }
+        res.status(200).json(users);
         
     } catch (err) {
         res.status(500).json({message:"error"});
