@@ -1,5 +1,5 @@
 // const { use } = require('react');
-const {getAll,getOne} = require('../model/users_M.js');
+const {getAll,getOne,deleteOne} = require('../model/users_M.js');
 async function getAllUsers(req, res) {
     try {
         
@@ -25,9 +25,23 @@ async function getOneUser(req, res) {
         res.status(500).json({message:"Server error"});
     }   
 }
+
+async function deleteUser(req, res) {
+    try {
+        let affectedRows = await deleteOne(req.id);
+        if(affectedRows===0){
+            return res.status(400).json({message:`user ${req.id} not found`});
+        }
+        res.status(200).json({message: `User ${req.id} deleted successfully`});
+         }
+    catch (err) {
+        res.status(500).json({message:"Server error"});
+    }   
+}
 module.exports = {
     getAllUsers,
     getOneUser,
+    deleteUser
     
 
 };

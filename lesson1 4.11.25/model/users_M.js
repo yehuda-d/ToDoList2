@@ -14,8 +14,15 @@ async function getOne(id) {
     return result[0];
 }
 
+async function deleteOne(id) {
+    let sql = `DELETE FROM users WHERE id = ?`;   
+    let [result]= await db.query(sql,[id]);
+    return result.affectedRows;
+}
+
 
 module.exports = {
     getAll,
     getOne,
+    deleteOne
 };
