@@ -4,13 +4,16 @@ const {
     getAllUsers,
     getOneUser,
     deleteUser,
+    updateUser,
 } =  require('../controller/users_C.js');
-const {isValidId} =  require('../middelware/users_MID');
+const {isValidId,valuesToEdit} =  require('../middelware/users_MID');
 router.get('/', getAllUsers);
 
 router.get('/:id',isValidId,getOneUser,deleteUser);
 
 router.delete('/:id',isValidId,deleteUser);
+
+router.patch('/:id',isValidId,valuesToEdit, updateUser);
 
 
 module.exports = router;
