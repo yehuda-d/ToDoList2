@@ -1,10 +1,23 @@
-async function addUser(req, res) {// למלא את הפומקציה בבית
+const { encryptPass } = require("../middelware/auth_MID");
+const {addOne } = require("../model/auth_M.js");
+
+async function addUser(req, res) {
     try {
-        let user = await getOne(req.id);       
-        if(!user){
-            return res.status(400).json({message:`user ${req.id} not found`});
+        const user = req.body;
+    
+        if(!user.pass){
+            return res.status(400).json({message:`password is required`});
         }
-        res.status(200).json(user);
+        
+        //הצפנת הסיסמה
+        // const hashedPass = await encryptPass(user.pass);
+        //החלפת הסיסמה הרגילה בהצפנה
+        // user.pass = hashedPass;
+        console.log(user);
+        const newUserId = await addOne(user);
+        
+        
+        res.status(200).json({message:"User added successfully", userId:newUserId});//להחזיר איידי של המשתמש החדש
     }
     catch (err) {
         res.status(500).json({message:"Server error"});

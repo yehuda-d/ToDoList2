@@ -15,9 +15,9 @@ async function encryptPass(req, res, next) {
     
     let hashPass = await bcrypt.hash(pass, 10);//המספר זה כמות ההכפלות של האלגוריתם
     console.log(hashPass);
+    req.body.pass = hashPass;
     
-    req.pass = hashPass;
-    // next();
+    next();
 }
 
 module.exports = { 
