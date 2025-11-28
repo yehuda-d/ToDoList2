@@ -1,4 +1,5 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt'); //ספריה להצפנת סיסמאות
+const jwt = require('jsonwebtoken'); //מייצרת מפתח שנותן לזהות את הלקוח בכל נקודת קצה אחרת
 
 const {addOne,getByUserName,getByEmail } = require("../model/users_M.js");
 
@@ -34,7 +35,7 @@ async function addUser(req, res) {
     }   
 }
 
-async function login(req, res) {
+async function login(req, res, next) {
     try {
         let user = await getByUserName(req.body.userName);
         
@@ -45,8 +46,9 @@ async function login(req, res) {
         if(!isMatch){
             return res.status(401).json({message:`username or password  is incorrect`});
         }
+        req.user = user;
 
-        return res.status(200).json({message:"Login successful"});
+        next();
 
     } catch (err) {
         console.error(err);
@@ -54,7 +56,25 @@ async function login(req, res) {
     }
 }
 
+async function createJwt(req, res) {
+    try {
+        let user = req.user;
+        let token = await jwt.sign(
+            {id:user.id,name:user.name},
+            process.env.SECRET_KEY,
+            {expiresIn:'3h'}
+        );
+        res.cookie('jwt', token,{maxAge:1000*60*60*3}).status(200).json({message:"Login successful"});
+        
+    } catch (err) {
+        console.error(err);
+         res.status(500).json({message:"Server error"});
+    }
+}
+
+
 module.exports = { 
     addUser,
     login,
+    createJwt,
  };
