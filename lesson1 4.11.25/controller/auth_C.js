@@ -1,23 +1,32 @@
-const { encryptPass } = require("../middelware/auth_MID");
-const {addOne } = require("../model/auth_M.js");
+// const { encryptPass } = require("../middelware/auth_MID");
+const {addOne,getByUserName,getByEmail } = require("../model/users_M.js");
 
 async function addUser(req, res) {
     try {
-        const user = req.body;
-    
-        if(!user.pass){
-            return res.status(400).json({message:`password is required`});
+        let name = req.body.name;
+        let email = req.body.email;
+        let userName = req.body.userName;
+        let pass = req.pass; // מה שמגיע מהמיידלוור אחרי ההצפנה
+
+        let user = await getByUserName(userName);
+        
+        if(user){
+            return res.status(409).json({message:`username ${userName} already exists`});
         }
-        
-        //הצפנת הסיסמה
-        // const hashedPass = await encryptPass(user.pass);
-        //החלפת הסיסמה הרגילה בהצפנה
-        // user.pass = hashedPass;
-        console.log(user);
-        const newUserId = await addOne(user);
-        
-        
-        res.status(200).json({message:"User added successfully", userId:newUserId});//להחזיר איידי של המשתמש החדש
+
+        user = await getByEmail(email);
+        if(user){
+            return res.status(409).json({message:`email ${email} already exists`});
+        }
+      
+        let userId = await addOne({name, email, userName, pass});
+
+        if(!userId){
+            console.error(err);           
+            return res.status(500).json({message:"Server error: Could not add user"});
+        }
+
+        res.status(201).json({message:"User added successfully"});//להחזיר איידי של המשתמש החדש
     }
     catch (err) {
         res.status(500).json({message:"Server error"});

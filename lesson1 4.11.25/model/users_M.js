@@ -33,9 +33,32 @@ async function updateOne(id,user) {
     return result.affectedRows;
 }
 
+async function getByUserName(userName) {
+    let sql = `SELECT * FROM users WHERE userName = ?`;   
+    let [result] = await db.query(sql,[userName]);
+    return result[0];
+}
+
+async function getByEmail(email) {
+    let sql = `SELECT * FROM users WHERE email = ?`;   
+    let [result] = await db.query(sql,[email]);
+    return result[0];
+}
+
+async function addOne({name, email, userName, pass}){
+    let sql = `INSERT INTO users (name, email, userName, pass) VALUES (?,?,?,?)`;
+    let [result] = await db.query(sql, [name, email, userName, pass]);
+    console.log(result);
+    
+    return result.insertId;
+}
+
 module.exports = {
     getAll,
     getOne,
     deleteOne,
     updateOne,
+    getByUserName,
+    getByEmail,
+    addOne
 };

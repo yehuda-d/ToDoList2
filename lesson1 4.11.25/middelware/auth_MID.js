@@ -10,12 +10,18 @@ function valuesToAdd(req, res, next) {
 }
 
 async function encryptPass(req, res, next) {
-    let pass = req.body.pass;
-    console.log(pass);
+    try {
+        let pass = req.body.pass;
     
-    let hashPass = await bcrypt.hash(pass, 10);//המספר זה כמות ההכפלות של האלגוריתם
-    console.log(hashPass);
-    req.body.pass = hashPass;
+        let hashPass = await bcrypt.hash(pass, 10);//המספר זה כמות ההכפלות של האלגוריתם
+        console.log(hashPass);
+        
+        req.pass = hashPass;
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({message:"Server error"});
+    }
+  
     
     next();
 }
