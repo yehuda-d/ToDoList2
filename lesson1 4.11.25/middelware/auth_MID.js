@@ -26,7 +26,18 @@ async function encryptPass(req, res, next) {
     next();
 }
 
+function valuesToLogin(req, res, next) {
+    let {userName,pass} = req.body;
+    if (!userName || !pass) {
+        return res.status(400).json({error: 'Missing required fields'});
+    }
+    next();
+}
+
+
 module.exports = { 
     valuesToAdd,
     encryptPass,
+    valuesToLogin
+
  };

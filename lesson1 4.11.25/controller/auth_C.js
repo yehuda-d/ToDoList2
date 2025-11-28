@@ -1,4 +1,5 @@
-// const { encryptPass } = require("../middelware/auth_MID");
+const bcrypt = require('bcrypt');
+
 const {addOne,getByUserName,getByEmail } = require("../model/users_M.js");
 
 async function addUser(req, res) {
@@ -33,4 +34,27 @@ async function addUser(req, res) {
     }   
 }
 
-module.exports = { addUser };
+async function login(req, res) {
+    try {
+        let user = await getByUserName(req.body.userName);
+        
+        if(!user){
+            return res.status(401).json({message:`username or password  is incorrect`});
+        }
+        let isMatch = await bcrypt.compare(req.body.pass, user.pass);
+        if(!isMatch){
+            return res.status(401).json({message:`username or password  is incorrect`});
+        }
+
+        return res.status(200).json({message:"Login successful"});
+
+    } catch (err) {
+        console.error(err);
+         res.status(500).json({message:"Server error"});
+    }
+}
+
+module.exports = { 
+    addUser,
+    login,
+ };
