@@ -7,7 +7,8 @@ const {
     updateUser,
 } =  require('../controller/users_C.js');
 const {isValidId,valuesToEdit} =  require('../middelware/users_MID');
-router.get('/', getAllUsers);
+const {isLoggedIn} =  require('../middelware/auth_MID');
+router.get('/',isLoggedIn, getAllUsers);
 
 router.get('/:id',isValidId,getOneUser,deleteUser);
 

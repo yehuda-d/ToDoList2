@@ -56,10 +56,10 @@ async function login(req, res, next) {
     }
 }
 
-async function createJwt(req, res) {
+function createJwt(req, res) {
     try {
         let user = req.user;
-        let token = await jwt.sign(
+        let token = jwt.sign(
             {id:user.id,name:user.name},
             process.env.SECRET_KEY,
             {expiresIn:'3h'}
