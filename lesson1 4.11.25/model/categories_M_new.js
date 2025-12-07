@@ -8,8 +8,17 @@ async function getAll() {
   return rows;
 } 
 
+async function add({categoryName,user_id}){
+    let sql = `INSERT INTO categories (categoryName, user_id) VALUES (?,?)`;
+    let [result] = await db.query(sql, [categoryName, user_id]);
+    console.log(result);
+    
+    return result.insertId;
+}
+
 
 module.exports = {
     getAll,
+    add
     
 };
