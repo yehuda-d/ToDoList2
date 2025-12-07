@@ -1,11 +1,10 @@
 // const { use } = require('react');
-const {getAll,add} = require('../model/categories_M_new');
+const {getAll,add,deleteOne} = require('../model/categories_M_new');
 
 async function getAllCategories(req, res) {
     try {
         
         let categories = await getAll();
-        console.log(categories);
         
         if(categories.length == 0){
             return res.status(400).json({message:"no categories found"});
@@ -26,13 +25,31 @@ async function addCategory(req, res) {
 
         if(!categoryId){
                        
-            return res.status(500).json({message:"Server error: Could not add user"});
+            return res.status(500).json({message:"Server error: Could not add category"});
         }
 
-        res.status(201).json({message:"User added successfully"});//להחזיר איידי של המשתמש החדש
+        res.status(201).json({message:"category added successfully"});//להחזיר איידי של המשתמש החדש
     }
     catch (err) {
-        console.error(err);
+        
+        res.status(500).json({message:"Server error"});
+    }   
+}
+
+async function deleteCategory(req, res) {
+    try {
+        const id = req.params.id;
+        if (!id) {
+            return res.status(400).json({ message: 'Missing category ID' });
+        }
+        let affectedRows = await deleteOne(id);
+        
+        if(!affectedRows){
+            return res.status(400).json({message:`category not found`});
+        }
+        res.status(200).json({message: `category deleted successfully`});
+         }
+    catch (err) {
         res.status(500).json({message:"Server error"});
     }   
 }
@@ -40,4 +57,5 @@ async function addCategory(req, res) {
 module.exports = {
     getAllCategories,
     addCategory,
+    deleteCategory
 };

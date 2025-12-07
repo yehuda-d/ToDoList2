@@ -16,9 +16,18 @@ async function add({categoryName,user_id}){
     return result.insertId;
 }
 
+async function deleteOne(id) {
+    let sql = `DELETE FROM categories WHERE id = ?`;   
+    let [result] = await db.query(sql,[id]);
+    console.log(result);
+    
+    return result.affectedRows;
+}
+
 
 module.exports = {
     getAll,
-    add
+    add,
+    deleteOne
     
 };
