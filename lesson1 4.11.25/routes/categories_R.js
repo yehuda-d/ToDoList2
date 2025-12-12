@@ -13,10 +13,10 @@ const { isValidId } = require('../middelware/users_MID.js');
 
 router.get('/',isLoggedIn, getAllCategories);
 router.post('/',isLoggedIn,valuesToAdd,addCategory);
-router.delete('/:id',isLoggedIn,deleteCategory);
-
-
 router.get('/:id',isLoggedIn,isValidId,getCategory);
+router.delete('/:id',isLoggedIn,isValidId, deleteCategory);
+
+
 
 // router.delete('/:id',isValidId,deleteUser);
 

@@ -51,11 +51,11 @@ async function getCategory(req, res) {
 
 async function deleteCategory(req, res) {
     try {
-        const id = req.params.id;
-        if (!id) {
-            return res.status(400).json({ message: 'Missing category ID' });
-        }
-        let affectedRows = await deleteOne(id);
+        // const id = req.params.id;
+        // if (!id) {
+        //     return res.status(400).json({ message: 'Missing category ID' });
+        // }
+        let affectedRows = await deleteOne(req.id,req.user.id);
         
         if(!affectedRows){
             return res.status(400).json({message:`category not found`});

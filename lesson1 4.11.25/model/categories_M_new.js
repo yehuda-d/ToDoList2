@@ -16,9 +16,9 @@ async function add({categoryName,user_id}){
     return result.insertId;
 }
 
-async function deleteOne(id) {
-    let sql = `DELETE FROM categories WHERE id = ?`;   
-    let [result] = await db.query(sql,[id]);
+async function deleteOne(catId,userId) {
+    let sql = `DELETE FROM categories WHERE id = ? AND user_id = ?`;   
+    let [result] = await db.query(sql,[catId,userId]);
     console.log(result);
     
     return result.affectedRows;
