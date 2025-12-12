@@ -23,11 +23,17 @@ async function deleteOne(id) {
     
     return result.affectedRows;
 }
+async function getOne(id) {
+    let sql = `SELECT * FROM categories WHERE id = ?`;   
+    let [result]= await db.query(sql,[id]);
+    return result[0];
+}
 
 
 module.exports = {
     getAll,
     add,
+    getOne,
     deleteOne
     
 };

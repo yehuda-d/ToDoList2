@@ -1,5 +1,5 @@
 // const { use } = require('react');
-const {getAll,add,deleteOne} = require('../model/categories_M_new');
+const {getAll,add,getOne,deleteOne} = require('../model/categories_M_new');
 
 async function getAllCategories(req, res) {
     try {
@@ -35,6 +35,19 @@ async function addCategory(req, res) {
         res.status(500).json({message:"Server error"});
     }   
 }
+async function getCategory(req, res) {
+    try {
+        let category = await getOne(req.id);       
+        if(!category){
+            return res.status(400).json({message:`category not found`});
+        }
+        res.status(200).json(category);
+    }
+    catch (err) {
+        res.status(500).json({message:"Server error"});
+    }   
+}
+
 
 async function deleteCategory(req, res) {
     try {
@@ -57,5 +70,6 @@ async function deleteCategory(req, res) {
 module.exports = {
     getAllCategories,
     addCategory,
+    getCategory,
     deleteCategory
 };
