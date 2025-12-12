@@ -4,7 +4,7 @@ const {getAll,add,getOne,deleteOne} = require('../model/categories_M_new');
 async function getAllCategories(req, res) {
     try {
         
-        let categories = await getAll();
+        let categories = await getAll(req.user.id);
         
         if(categories.length == 0){
             return res.status(400).json({message:"no categories found"});
@@ -37,7 +37,7 @@ async function addCategory(req, res) {
 }
 async function getCategory(req, res) {
     try {
-        let category = await getOne(req.id);       
+        let category = await getOne(req.id,req.user.id);       
         if(!category){
             return res.status(400).json({message:`category not found`});
         }

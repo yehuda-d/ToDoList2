@@ -1,9 +1,9 @@
 const db = require('../config/db_config');
 
 // הפונקציה מחזירה את כל הקטגוריות מהטבלה "categories"
-async function getAll() {
-    let sql = 'SELECT categoryName FROM categories';
-    let [rows]= await db.query(sql);
+async function getAll(user_id) {
+    let sql = 'SELECT * FROM categories WHERE user_id = ?';
+    let [rows]= await db.query(sql,[user_id]);
        
   return rows;
 } 
@@ -23,9 +23,9 @@ async function deleteOne(id) {
     
     return result.affectedRows;
 }
-async function getOne(id) {
-    let sql = `SELECT * FROM categories WHERE id = ?`;   
-    let [result]= await db.query(sql,[id]);
+async function getOne(catId,userId) {
+    let sql = `SELECT * FROM categories WHERE id = ? AND user_id = ?`;   
+    let [result]= await db.query(sql,[catId,userId]);
     return result[0];
 }
 
