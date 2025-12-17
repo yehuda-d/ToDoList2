@@ -16,6 +16,12 @@ async function add({categoryName,user_id}){
     return result.insertId;
 }
 
+async function getOne(catId,userId) {
+    let sql = `SELECT * FROM categories WHERE id = ? AND user_id = ?`;   
+    let [result]= await db.query(sql,[catId,userId]);
+    return result[0];
+}
+
 async function deleteOne(catId,userId) {
     let sql = `DELETE FROM categories WHERE id = ? AND user_id = ?`;   
     let [result] = await db.query(sql,[catId,userId]);
@@ -23,10 +29,13 @@ async function deleteOne(catId,userId) {
     
     return result.affectedRows;
 }
-async function getOne(catId,userId) {
-    let sql = `SELECT * FROM categories WHERE id = ? AND user_id = ?`;   
-    let [result]= await db.query(sql,[catId,userId]);
-    return result[0];
+
+async function updateOne(catId,userId,newName) {
+    let sql = `UPDATE categories SET categoryName = ? WHERE id = ? AND user_id = ?`;   
+    let [result] = await db.query(sql,[newName,catId,userId]);
+    console.log(result);
+    
+    return result.affectedRows;
 }
 
 
@@ -34,6 +43,7 @@ module.exports = {
     getAll,
     add,
     getOne,
-    deleteOne
+    deleteOne,
+    updateOne
     
 };
