@@ -7,6 +7,15 @@ async function getAllT(userid) {
   return rows;
 } 
 
+async function addT({category_ID, user_id, isDone, text}){
+    let sql = `INSERT INTO tasks (category_ID, user_id, isDone, text) VALUES (?,?,?,?)`;
+    let [result] = await db.query(sql, [category_ID, user_id, isDone, text]);
+    console.log(result);
+    
+    return result.insertId;
+}
+
 module.exports = {
     getAllT,
+    addT
 };

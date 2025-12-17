@@ -1,4 +1,4 @@
-const {getAllT} = require('../model/tasks_M');
+const {getAllT,addT} = require('../model/tasks_M');
 
 async function getAllTasks(req, res) {
     try {
@@ -15,7 +15,30 @@ async function getAllTasks(req, res) {
     }
 }
 
+async function addTask(req, res) {
+    try {
+        let category_ID = req.body.category_ID;
+        let user_id = req.user.id;
+        let isDone = req.body.isDone ?? 0;
+        let text = req.body.text;
+      
+        let categoryId = await addT({category_ID, user_id, isDone, text});
+
+        if(!categoryId){
+                       
+            return res.status(500).json({message:"Server error: Could not add task"});
+        }
+
+        res.status(201).json({message:"task added successfully"});//להחזיר איידי של המשתמש החדש
+    }
+    catch (err) {
+        
+        res.status(500).json({message:"Server error"});
+    }   
+}
+
 module.exports = {
     getAllTasks,
+    addTask,
    
 };

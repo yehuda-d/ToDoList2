@@ -1,7 +1,7 @@
 function validValues(req, res, next) {
-    let taskName  = req.body.taskName;
-    if (!taskName) {
-        console.log(taskName);
+    const { category_ID, text } = req.body;
+    if (!category_ID || !text) {
+        console.log(category_ID || text);
         
         return res.status(400).json({error: 'Missing required fields'});
     }
