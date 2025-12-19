@@ -7,9 +7,9 @@ async function getAllT(userid) {
   return rows;
 } 
 
-async function addT({text,user_id }){
-    let sql = `INSERT INTO tasks (text, user_id ) VALUES (?,?)`;
-    let [result] = await db.query(sql, [text, user_id]);
+async function addT({text,user_id, catId }){
+    let sql = `INSERT INTO tasks (text, user_id, catId) VALUES (?, ?, ?)`;
+    let [result] = await db.query(sql, [text, user_id, catId]);
     console.log(result);
     
     return result.insertId;
@@ -29,9 +29,28 @@ async function deleteOneT(taskId,userId) {
     return result.affectedRows;
 }
 
+// async function updateOneT(taskId,userId,isDone,text) {
+//     let sql = `UPDATE tasks SET isDone = ?, text = ? WHERE id = ? AND user_id = ?`;   
+//     let [result] = await db.query(sql,[isDone,text,taskId,userId]);
+//     console.log(result);
+    
+//     return result.affectedRows;
+// }
+async function updateOneT(taskId, userId, newTask) {
+    let keys = Object.keys(newTask);
+    let values = Object.values(newTask);
+    let set = keys.map(k=>`${k}=?`).join(', ');//הפוך את המפתחות למחרוזת של key=? , key=?
+    let sql = `UPDATE tasks SET ${set} WHERE id = ? AND user_id = ?`;   
+    let [result] = await db.query(sql,[...values,taskId,userId]);//פירוק המערך values והוספת id בסוף
+    console.log(result);
+    
+    return result.affectedRows;
+}
+
 module.exports = {
     getAllT,
     addT,
     getOneT,
-    deleteOneT
+    deleteOneT,
+    updateOneT
 };

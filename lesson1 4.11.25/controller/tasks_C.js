@@ -1,4 +1,4 @@
-const {getAllT,addT,getOneT,deleteOneT} = require('../model/tasks_M');
+const {getAllT,addT,getOneT,deleteOneT,updateOneT} = require('../model/tasks_M');
 
 async function getAllTasks(req, res) {
     try {
@@ -21,8 +21,9 @@ async function addTask(req, res) {
         let user_id = req.user.id;
         
         let text = req.body.text;
+        let catId = req.body.catId || null;
       
-        let taskId = await addT({user_id, text});
+        let taskId = await addT({user_id, text, catId});
 
         if(!taskId){
                        
@@ -65,11 +66,30 @@ async function deleteTask(req, res) {
     }   
 }
 
+async function updateTask(req, res) {
+    try {
+        let taskId = req.id;
+        let userId = req.user.id;
+        let newTask = req.newTask;
+
+        let affectedRows = await updateOneT(taskId, userId, newTask);
+        if(!affectedRows){
+            return res.status(400).json({message:`task not found`});
+        }
+        res.status(200).json({message: `task update successfully`});
+         }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({message:"Server error"});
+    }   
+}
+
 
 
 module.exports = {
     getAllTasks,
     addTask,
     getOneTask,
-    deleteTask
+    deleteTask,
+    updateTask
 };
