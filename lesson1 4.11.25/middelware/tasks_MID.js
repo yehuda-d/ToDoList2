@@ -22,8 +22,9 @@ function valuesToEdit(req, res, next) {
     if (req.body.text) {
         obj.text = req.body.text;
     }
-    if (req.body.isDone) {
-        obj.isDone = req.body.isDone;
+    let isDone = req.body.isDone;
+    if (isDone !== undefined && isDone !== null) {
+        obj.isDone = isDone;
     }
     
     let keys = Object.keys(obj)//מחזיר מערך של מפתחות

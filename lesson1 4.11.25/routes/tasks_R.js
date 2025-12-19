@@ -15,7 +15,7 @@ const { valuesToEdit } = require('../middelware/tasks_MID');
 router.get('/',isLoggedIn, getAllTasks);
 router.post('/',isLoggedIn,ValuesToAdd, addTask);
 router.get('/:id',isLoggedIn,isValidId,getOneTask);
-router.delete('/:id',isLoggedIn,isValidId, deleteTask)
-router.patch('/:id',isLoggedIn,isValidId,valuesToEdit, updateTask)
+router.delete('/:id',isLoggedIn,isValidId, deleteTask);
+router.patch('/:id',isLoggedIn,isValidId,valuesToEdit, updateTask);
 
 module.exports = router;
