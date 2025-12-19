@@ -1,4 +1,4 @@
-const {getAllT,addT} = require('../model/tasks_M');
+const {getAllT,addT,getOneT,deleteOneT} = require('../model/tasks_M');
 
 async function getAllTasks(req, res) {
     try {
@@ -17,14 +17,14 @@ async function getAllTasks(req, res) {
 
 async function addTask(req, res) {
     try {
-        let category_ID = req.body.category_ID;
+        
         let user_id = req.user.id;
-        let isDone = req.body.isDone ?? 0;
+        
         let text = req.body.text;
       
-        let categoryId = await addT({category_ID, user_id, isDone, text});
+        let taskId = await addT({user_id, text});
 
-        if(!categoryId){
+        if(!taskId){
                        
             return res.status(500).json({message:"Server error: Could not add task"});
         }
@@ -32,13 +32,44 @@ async function addTask(req, res) {
         res.status(201).json({message:"task added successfully"});//להחזיר איידי של המשתמש החדש
     }
     catch (err) {
+        console.log(err);
         
         res.status(500).json({message:"Server error"});
     }   
 }
 
+async function getOneTask(req, res) {
+    try {
+        let task = await getOneT(req.id,req.user.id);       
+        if(!task){
+            return res.status(400).json({message:`task not found`});
+        }
+        res.status(200).json(task);
+    }
+    catch (err) {
+        res.status(500).json({message:"Server error"});
+    }   
+}
+
+async function deleteTask(req, res) {
+    try {
+        let affectedRows = await deleteOneT(req.id,req.user.id);
+        
+        if(!affectedRows){
+            return res.status(400).json({message:`task not found`});
+        }
+        res.status(200).json({message: `task deleted successfully`});
+         }
+    catch (err) {
+        res.status(500).json({message:"Server error"});
+    }   
+}
+
+
+
 module.exports = {
     getAllTasks,
     addTask,
-   
+    getOneTask,
+    deleteTask
 };

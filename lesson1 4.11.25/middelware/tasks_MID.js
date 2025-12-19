@@ -1,7 +1,7 @@
 function validValues(req, res, next) {
-    const { category_ID, text } = req.body;
-    if (!category_ID || !text) {
-        console.log(category_ID || text);
+    const text = req.body.text;
+    if (!text) {
+        console.log(text);
         
         return res.status(400).json({error: 'Missing required fields'});
     }

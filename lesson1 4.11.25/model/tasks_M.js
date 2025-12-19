@@ -7,15 +7,31 @@ async function getAllT(userid) {
   return rows;
 } 
 
-async function addT({category_ID, user_id, isDone, text}){
-    let sql = `INSERT INTO tasks (category_ID, user_id, isDone, text) VALUES (?,?,?,?)`;
-    let [result] = await db.query(sql, [category_ID, user_id, isDone, text]);
+async function addT({text,user_id }){
+    let sql = `INSERT INTO tasks (text, user_id ) VALUES (?,?)`;
+    let [result] = await db.query(sql, [text, user_id]);
     console.log(result);
     
     return result.insertId;
 }
 
+async function getOneT(taskId,userId) {
+    let sql = `SELECT * FROM tasks WHERE id = ? AND user_id = ?`;   
+    let [result]= await db.query(sql,[taskId,userId]);
+    return result[0];
+}
+
+async function deleteOneT(taskId,userId) {
+    let sql = `DELETE FROM tasks WHERE id = ? AND user_id = ?`;   
+    let [result] = await db.query(sql,[taskId,userId]);
+    console.log(result);
+    
+    return result.affectedRows;
+}
+
 module.exports = {
     getAllT,
-    addT
+    addT,
+    getOneT,
+    deleteOneT
 };
