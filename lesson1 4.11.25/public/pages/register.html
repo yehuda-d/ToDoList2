@@ -12,18 +12,25 @@
     <br>
 
     <div id="log">
-        <form method="post" action="">
+        
             <lable for="name">name: </lable>
             <input id="name" type="text" name="name" required placeholder="enter name">
+            <br>
+            <lable for="email">email: </lable>
+            <input id="email" type="text" name="email" required placeholder="enter email">
             <br>
             <lable for="username">user name: </lable>
             <input id="userName" type="text" name="username" required placeholder="enter user name">
             <br>
-            <lable for="password">password: </lable>
-            <input id="password" type="password" name="password" required placeholder="enter password">
+            <lable for="pass">pass: </lable>
+            <input id="pass" type="pass" name="pass" required placeholder="enter pass">
             <br> <br>
-            <button name="snd_btn" value="1">register me</button>
-        </form>
+            <button name="snd_btn" value="1" onclick="register()">register me</button>
+            <br>
+            <a href="/login">כבר רשום? להתחברות לחץ כאן</a>
+       
     </div>
+
+    <script src="../scripts/register.js"></script>
 </body>
 </html>
