@@ -10,11 +10,12 @@ async function login() {
                 'Content-Type':'application/json'},
             body:JSON.stringify({userName,pass})
         })
+        let data = await response.json();
         if(response.status == 200){
+            localStorage.setItem('name', data.name);
             window.location.href = '/';
             return;
         }
-        let data = await response.json();
         // console.log(response);
         // console.log(data);
         // console.log(data.message);

@@ -64,7 +64,7 @@ function createJwt(req, res) {
             process.env.SECRET_KEY,
             {expiresIn:'3h'}
         );
-        res.cookie('jwt', token,{maxAge:1000*60*60*3}).status(200).json({message:"Login successful"});
+        res.cookie('jwt', token,{httpOnly:true,maxAge:1000*60*60*3}).status(200).json({message:"Login successful", name: user.name});
         
     } catch (err) {
         console.error(err);
