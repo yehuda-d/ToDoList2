@@ -7,9 +7,9 @@ async function getAllT(userid) {
   return rows;
 } 
 
-async function addT({text,user_id, catId }){
-    let sql = `INSERT INTO tasks (text, user_id, catId) VALUES (?, ?, ?)`;
-    let [result] = await db.query(sql, [text, user_id, catId]);
+async function addT({text,user_id, category_ID }){
+    let sql = `INSERT INTO tasks (text, user_id, category_ID) VALUES (?, ?, ?)`;
+    let [result] = await db.query(sql, [text, user_id, category_ID]);
     console.log(result);
     
     return result.insertId;

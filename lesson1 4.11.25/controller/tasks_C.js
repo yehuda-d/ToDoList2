@@ -21,9 +21,9 @@ async function addTask(req, res) {
         let user_id = req.user.id;
         
         let text = req.body.text;
-        let catId = req.body.catId || null;
+        let category_ID = req.body.category_ID || null;
       
-        let taskId = await addT({user_id, text, catId});
+        let taskId = await addT({user_id, text, category_ID: category_ID});
 
         if(!taskId){
                        

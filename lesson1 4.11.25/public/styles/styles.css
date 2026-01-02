@@ -4,14 +4,18 @@
     margin-top: 20px;
 }
 
-/* #titleTable{
+#titleTable{
     text-align: center;
     color: green;
     margin-top: 20px;
 }
 #tasksTable{
-    width: 80%;
+    width: 60%;
     margin: auto;
-    margin-top: 10px;
-    border-collapse: collapse;
-} */
+    /* margin-top: 10px; */
+    /* border-collapse: collapse; */
+}
+.rowClass{
+    text-decoration: line-through;
+    color: gray;
+}
