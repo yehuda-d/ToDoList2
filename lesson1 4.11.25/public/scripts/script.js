@@ -2,6 +2,9 @@ let greating = " hello ";
 greating += localStorage.getItem('name');
  document.getElementById("greating").innerHTML = greating;
  allCategories = [];
+ let categories = [];
+ let allTasks = [];
+
 
 
 async function getTasks() {
@@ -16,7 +19,8 @@ async function getTasks() {
             alert(data.message);
             return;
         }
-        creatTable(data);
+        allTasks = data;
+        createTable(data);
             
         }
      catch (err) {
@@ -24,7 +28,7 @@ async function getTasks() {
     }
 }
 
-function creatTable(data) {
+function createTable(data) {
           let txt = "";
           for (obj of data) {
               if(obj){
@@ -74,18 +78,43 @@ function creatTable(data) {
             alert(data.message);
             return;
         }
+        categories = data; // ✔ שומר כמערך
+         allCategories = {};
         for(let c of data){
             allCategories[c.id] = c;
         }
+        selectCategories(); // ✔ בונה את ה-select
         }
      catch (err) {
         alert(err);
     }
 }
 
-function selectCategories(){
+ function selectCategories(){
+const select = document.getElementById('select');
+    select.innerHTML = '<option value="">בחר קטגוריה...</option>';
     
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.categoryName;
+        select.appendChild(option);
+    });
+    select.onchange = filterTasks;
+ }
+
+ function filterTasks() {
+    let select = document.getElementById('select');
+    let selectedCategoryId = select.value;
+    
+    if (selectedCategoryId === '') {
+        createTable(allTasks);
+    } else {
+        let filteredTasks = allTasks.filter(task => task.category_ID == selectedCategoryId);
+        createTable(filteredTasks);
+    }
 }
 
+//selectCategories();
 getCategories();
 getTasks();
