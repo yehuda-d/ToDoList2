@@ -1,7 +1,7 @@
 let greating = " hello ";
 greating += localStorage.getItem('name');
  document.getElementById("greating").innerHTML = greating;
- allCategories = [];
+ let allCategories = [];
  let categories = [];
  let allTasks = [];
 
@@ -102,6 +102,14 @@ const select = document.getElementById('select');
     });
     select.onchange = filterTasks;
  }
+//   function selectCategories(){
+//     let txt = '<option value="0">בחר קטגוריה...</option>';
+//     for(obj of data){
+//         if(obj){
+//             txt += `<option value="${obj.id}">${obj.categoryName}</option>`;
+//         }
+//     }
+//  }
 
  function filterTasks() {
     let select = document.getElementById('select');
@@ -114,6 +122,56 @@ const select = document.getElementById('select');
         createTable(filteredTasks);
     }
 }
+
+function deleteTask(id) {
+    
+    const isSure = confirm("האם אתה בטוח שברצונך למחוק את המשימה?");
+
+    if (!isSure) {
+        return; // המשתמש ביטל
+    }
+    try {
+        fetch(`/tasks/${id}`, {
+            method: 'DELETE'
+        }).then(response => {
+            if (response.status == 200) {
+                alert("task deleted");
+                getTasks();
+            } else {
+                response.json().then(data => {
+                    alert(data.message);
+                });
+            }
+        });
+    } catch (err) {
+        alert(err);
+    }
+}
+
+// function deleteTask(id) {
+    
+//     const isSure = confirm("האם אתה בטוח שברצונך למחוק את המשימה?");
+
+//     if (!isSure) {
+//         return; // המשתמש ביטל
+//     }
+//     try {
+//         let response = await fetch(`/tasks/${id}`, {
+//             method: 'DELETE'
+//         })
+//         let data = await response.json();
+//                 alert("task deleted");
+//                 getTasks();
+//             } else {
+//                 response.json().then(data => {
+//                     alert(data.message);
+//                 });
+//             }
+//         });
+//     } catch (err) {
+//         alert(err);
+//     }
+// }
 
 //selectCategories();
 getCategories();
