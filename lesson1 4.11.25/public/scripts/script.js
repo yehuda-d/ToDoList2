@@ -43,7 +43,7 @@ function createTable(data) {
                   txt += `<td>${obj.text}</td>`;
                   txt += `<td>${categoryName}</td>`;
                 //   txt += `<td><button onclick = "toggleDone(${obj.id}, ${obj.isDone})">${obj.isDone ? '☑️' : '☐'}</button></td>`;
-                  txt += `<td><button onclick = "taskById(${obj.id})">✏️</button></td>`;
+                  txt += `<td><button onclick = "EdittaskById(${obj.id})">✏️</button></td>`;
                   txt += `<td><button onclick = "deleteTask(${obj.id})">🗑️</button></td>`;
                   txt += `</tr>`;
               }
@@ -123,7 +123,7 @@ const select = document.getElementById('select');
     }
 }
 
-function deleteTask(id) {
+async function deleteTask(id) {
     
     const isSure = confirm("האם אתה בטוח שברצונך למחוק את המשימה?");
 
@@ -131,11 +131,41 @@ function deleteTask(id) {
         return; // המשתמש ביטל
     }
     try {
-        fetch(`/tasks/${id}`, {
+        let response = await fetch(`/tasks/${id}`, {
             method: 'DELETE'
+        })
+        let data = await response.json();
+        if(!response.ok){
+            alert(data.message);
+        }
+        alert("task deleted");
+                getTasks();
+        } catch (err) {
+        alert(err);
+    }
+}
+
+async function addNewTask() {
+    try {
+        let text = document.getElementById('taskInput').value;
+        let category_ID = document.getElementById('select').value;
+        if(category_ID === 0){
+            category_ID = null;
+        }
+        let response = await fetch('/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                text,
+                category_ID,
+                isDone: false
+            })
         }).then(response => {
-            if (response.status == 200) {
-                alert("task deleted");
+            if (response.status === 201) {
+                alert("task added");
+                document.getElementById('taskInput').value = "";
                 getTasks();
             } else {
                 response.json().then(data => {
@@ -147,20 +177,22 @@ function deleteTask(id) {
         alert(err);
     }
 }
+   
 
-// function deleteTask(id) {
-    
-//     const isSure = confirm("האם אתה בטוח שברצונך למחוק את המשימה?");
-
-//     if (!isSure) {
-//         return; // המשתמש ביטל
+// function EdittaskById(id) {
+//     let newText = prompt("הכנס את התיאור החדש של המשימה:");
+//     if (newText === null || newText.trim() === "") {
+//         alert("תיאור לא יכול להיות ריק.");
+//         return;
 //     }
 //     try {
-//         let response = await fetch(`/tasks/${id}`, {
-//             method: 'DELETE'
-//         })
-//         let data = await response.json();
-//                 alert("task deleted");
+//         fetch(`/tasks/${id}`, {
+//             method: 'PATCH',
+//             headers: {'Content-type':'application/json'},
+//             body: JSON.stringify({description:newText})
+//         }).then(response => {
+//             if (response.status == 200) {
+//                 alert("task updated");
 //                 getTasks();
 //             } else {
 //                 response.json().then(data => {

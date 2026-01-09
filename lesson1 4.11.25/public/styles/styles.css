@@ -19,3 +19,11 @@
     text-decoration: line-through;
     color: gray;
 }
+#inputText{
+    text-align: center;
+    margin-top: 20px;
+}
+#select{
+    margin-left: 270px;
+    text-align: center;
+}
