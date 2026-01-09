@@ -43,7 +43,7 @@ function createTable(data) {
                   txt += `<td>${obj.text}</td>`;
                   txt += `<td>${categoryName}</td>`;
                 //   txt += `<td><button onclick = "toggleDone(${obj.id}, ${obj.isDone})">${obj.isDone ? '☑️' : '☐'}</button></td>`;
-                  txt += `<td><button onclick = "EdittaskById(${obj.id})">✏️</button></td>`;
+                  txt += `<td><button onclick = "updateTask(${obj.id})">✏️</button></td>`;
                   txt += `<td><button onclick = "deleteTask(${obj.id})">🗑️</button></td>`;
                   txt += `</tr>`;
               }
@@ -179,31 +179,51 @@ async function addNewTask() {
 }
    
 
-// function EdittaskById(id) {
-//     let newText = prompt("הכנס את התיאור החדש של המשימה:");
-//     if (newText === null || newText.trim() === "") {
-//         alert("תיאור לא יכול להיות ריק.");
-//         return;
-//     }
-//     try {
-//         fetch(`/tasks/${id}`, {
-//             method: 'PATCH',
-//             headers: {'Content-type':'application/json'},
-//             body: JSON.stringify({description:newText})
-//         }).then(response => {
-//             if (response.status == 200) {
-//                 alert("task updated");
-//                 getTasks();
-//             } else {
-//                 response.json().then(data => {
-//                     alert(data.message);
-//                 });
-//             }
-//         });
-//     } catch (err) {
-//         alert(err);
-//     }
-// }
+async function updateTask(id) {
+    try {
+        let newTask = document.getElementById('taskInput').value;
+        let response = await fetch(`/tasks/${id}`); 
+        let data = await response.json();
+        if(!response.ok){
+            alert(data.message);
+            
+        }else{
+            document.getElementById('id').value = data.id;
+            document.getElementById('taskInput').value = data.text;
+        }          
+        }
+     catch (err) {
+        alert(err);
+    }
+}
+
+function addOrEdit(){
+    let id = document.getElementById('id').value;
+    if(id){
+        EditTask(id);
+    }else{
+        addNewTask();
+    }
+}
+
+async function EditTask(id) {
+              try {
+                let text = document.getElementById('taskInput').value;    
+                console.log(text);
+                            
+                let response = await fetch(`/tasks/${id}`,{
+                    method: 'PATCH',
+                    headers: {'Content-type':'application/json'},
+                    body: JSON.stringify({text})
+                })
+                    getTasks();
+                    
+                 document.getElementById('taskInput').value = "";
+            } catch (err) {
+                alert(err);
+            }
+        }
+
 
 //selectCategories();
 getCategories();
