@@ -11,6 +11,7 @@ async function addUser(req, res) {
         let pass = req.pass; // מה שמגיע מהמיידלוור אחרי ההצפנה
 
         let user = await getByUserName(userName);
+        console.log(req.pass);
         
         if(user){
             return res.status(409).json({message:`username ${userName} already exists`});
@@ -47,7 +48,7 @@ async function login(req, res, next) {
             return res.status(401).json({message:`username or password  is incorrect`});
         }
         req.user = user;
-
+        
         next();
 
     } catch (err) {
@@ -65,7 +66,7 @@ function createJwt(req, res) {
             {expiresIn:'3h'}
         );
         res.cookie('jwt', token,{httpOnly:true,maxAge:1000*60*60*3}).status(200).json({message:"Login successful", name: user.name});
-        
+       
     } catch (err) {
         console.error(err);
          res.status(500).json({message:"Server error"});

@@ -14,18 +14,17 @@ function valuesToAdd(req, res, next) {
 async function encryptPass(req, res, next) {
     try {
         let pass = req.body.pass;
-    
-        let hashPass = await bcrypt.hash(pass, 10);//המספר זה כמות ההכפלות של האלגוריתם
-        console.log(hashPass);
-        
+
+        let hashPass = await bcrypt.hash(pass, 10);
+        console.log("hashed pass:", hashPass);
+
         req.pass = hashPass;
+        console.log("controller pass:", req.pass);
+        next(); // ✅ ממשיך ל־controller
     } catch (err) {
         console.error(err);
-        res.status(500).json({message:"Server error"});
+        return res.status(500).json({message:"Server error"});
     }
-  
-    
-    next();
 }
 
 function valuesToLogin(req, res, next) {
