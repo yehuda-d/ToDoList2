@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 
 
 function valuesToAdd(req, res, next) {
-    let {name, email, userName, pass} = req.body;
-    if (!name || !email || !userName || !pass) {
+    let {name, email, username, pass} = req.body;
+    if (!name || !email || !username || !pass) {
         return res.status(400).json({error: 'Missing required fields'});
     }
     next();

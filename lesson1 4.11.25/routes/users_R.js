@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const {
     getAllUsers,
-    //getOneUser,
+    getOneUser,
     deleteUser,
     updateUser,
 } =  require('../controller/users_C.js');
@@ -13,7 +13,7 @@ const {isLoggedIn, valuesToAdd, encryptPass} =  require('../middelware/auth_MID'
 
 router.get('/',isLoggedIn, getAllUsers);
 
-//router.get('/:id',isValidId,getOneUser,deleteUser);
+router.get('/:id',isValidId,getOneUser);
 
 router.post('/',valuesToAdd,encryptPass, addUser);
 

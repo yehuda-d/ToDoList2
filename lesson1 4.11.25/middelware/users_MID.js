@@ -14,8 +14,8 @@ function valuesToEdit(req, res, next) {
     if (req.body.email) {
         obj.email = req.body.email;
     }
-    if (req.body.username) {
-        obj.username = req.body.username;
+    if (req.body.userName) {
+        obj.userName = req.body.userName;
     }
     let keys = Object.keys(obj)//מחזיר מערך של מפתחות
     if (keys.length == 0) {

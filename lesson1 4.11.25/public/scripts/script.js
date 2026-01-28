@@ -9,7 +9,7 @@ greating += localStorage.getItem('name');
 
 async function getTasks() {
     try {
-        let response = await fetch('/tasks')
+        let response = await fetch('/api/tasks')
         if(response.status == 401){
             window.location.href = '/login';
             return;
@@ -54,7 +54,7 @@ function createTable(data) {
       async function taskDone(id,element) {
               try {
                 let isDone = element.checked;                
-                let response = await fetch(`/tasks/${id}`,{
+                let response = await fetch(`/api/tasks/${id}`,{
                     method: 'PATCH',
                     headers: {'Content-type':'application/json'},
                     body: JSON.stringify({isDone})
@@ -68,7 +68,7 @@ function createTable(data) {
         }
         async function getCategories() {
     try {
-        let response = await fetch('/categories')
+        let response = await fetch('/api/categories')
         if(response.status == 401){
             window.location.href = '/login';
             return;
@@ -131,7 +131,7 @@ async function deleteTask(id) {
         return; // המשתמש ביטל
     }
     try {
-        let response = await fetch(`/tasks/${id}`, {
+        let response = await fetch(`/api/tasks/${id}`, {
             method: 'DELETE'
         })
         let data = await response.json();
@@ -152,7 +152,7 @@ async function addNewTask() {
         if(category_ID === 0){
             category_ID = null;
         }
-        let response = await fetch('/tasks', {
+        let response = await fetch('/api/tasks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -182,7 +182,7 @@ async function addNewTask() {
 async function updateTask(id) {
     try {
         let newTask = document.getElementById('taskInput').value;
-        let response = await fetch(`/tasks/${id}`); 
+        let response = await fetch(`/api/tasks/${id}`); 
         let data = await response.json();
         if(!response.ok){
             alert(data.message);
@@ -211,7 +211,7 @@ async function EditTask(id) {
                 let text = document.getElementById('taskInput').value;    
                 console.log(text);
                             
-                let response = await fetch(`/tasks/${id}`,{
+                let response = await fetch(`/api/tasks/${id}`,{
                     method: 'PATCH',
                     headers: {'Content-type':'application/json'},
                     body: JSON.stringify({text})

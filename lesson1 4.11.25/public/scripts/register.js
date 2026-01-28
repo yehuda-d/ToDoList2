@@ -6,7 +6,7 @@ async function register() {
     
     try {
         if(name && email && userName && pass){
-        let response  = await fetch('/auth/reg',{
+        let response  = await fetch('/api/auth/reg',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'},

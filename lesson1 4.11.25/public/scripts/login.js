@@ -4,7 +4,7 @@ async function login() {
     
     try {
         if(userName && pass){
-        let response  = await fetch('/auth/login',{
+        let response  = await fetch('/api/auth/login',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'},

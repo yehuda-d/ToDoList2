@@ -9,7 +9,7 @@ async function getAll() {
   return rows;
 } 
 async function getOne(id) {
-    let sql = `SELECT id,name,email FROM users WHERE id = ?`;   
+    let sql = `SELECT id,name,email,userName FROM users WHERE id = ?`;   
     let [result]= await db.query(sql,[id]);
     return result[0];
 }
