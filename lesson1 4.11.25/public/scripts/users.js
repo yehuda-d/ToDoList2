@@ -42,41 +42,6 @@ function createTable(data) {
           document.getElementById("tableBody").innerHTML = txt;
       }
 
-//       async function addNewUser() {
-//     try {
-//         let name = document.getElementById('nameInput').value;
-//         let email = document.getElementById('emailInput').value;
-//         let userName = document.getElementById('userNameInput').value;
-//         let password = document.getElementById('passwordInput').value;
-//         let response = await fetch('http://localhost:3800/users', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 name,
-//                 email,
-//                 userName,
-//                 pass: password
-//             })
-//         }).then(response => {
-//             if (response.status === 201) {
-//                 alert("user added");
-//                 document.getElementById('nameInput').value = "";    
-//                 document.getElementById('emailInput').value = "";
-//                 document.getElementById('userNameInput').value = "";
-//                 document.getElementById('passwordInput').value = "";
-//                 getAllUsers();
-//             } else {
-//                 response.json().then(data => {
-//                     alert(data.message);
-//                 });
-//             }
-//         });
-//     } catch (err) {
-//         alert(err);
-//     }
-// }
 
 async function addNewUser() {
     try {
@@ -114,6 +79,28 @@ async function addNewUser() {
     } catch (err) {
         console.error(err);
         alert("Server error");
+    }
+}
+
+async function deleteUser(id) {
+    
+    const isSure = confirm("האם אתה בטוח שברצונך למחוק את המשתמש?");
+
+    if (!isSure) {
+        return; // המשתמש ביטל
+    }
+    try {
+        let response = await fetch(`/api/users/${id}`, {
+            method: 'DELETE'
+        })
+        let data = await response.json();
+        if(!response.ok){
+            alert(data.message);
+        }
+        alert("user deleted");
+                getAllUsers();
+        } catch (err) {
+        alert(err);
     }
 }
 getAllUsers();
