@@ -74,4 +74,33 @@ function createTable(data) {
     }
 }
 
+async function deleteCategory(id) {
+    // שלב א: הצגת הודעת אזהרה למשתמש
+    const isSure = confirm("האם אתה בטוח שברצונך למחוק את הקטגוריה ואת כל המשימות שלה?");
+
+    // אם המשתמש לחץ "ביטול", עוצרים כאן
+    if (!isSure) {
+        return; 
+    }
+
+    // שלב ב: שליחת בקשת המחיקה לשרת
+    try {
+        let response = await fetch(`/api/categories/${id}`, {
+            method: 'DELETE'
+        });
+
+        // אם המחיקה הצליחה (סטטוס 200)
+        if (response.ok) {
+            alert("הקטגוריה והמשימות נמחקו בהצלחה");
+            getCategories(); // רענון הטבלה
+        } else {
+            let data = await response.json();
+            alert(data.message || "שגיאה במחיקת הקטגוריה");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("שגיאת שרת");
+    }
+}
+
       getCategories();

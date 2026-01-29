@@ -23,6 +23,9 @@ async function getOne(catId,userId) {
 }
 
 async function deleteOne(catId,userId) {
+    let sqlTasks = `DELETE FROM tasks WHERE category_ID = ? AND user_id = ?`;
+    await db.query(sqlTasks, [catId, userId]);
+    
     let sql = `DELETE FROM categories WHERE id = ? AND user_id = ?`;   
     let [result] = await db.query(sql,[catId,userId]);
     console.log(result);
