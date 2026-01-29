@@ -103,4 +103,55 @@ async function deleteCategory(id) {
     }
 }
 
+async function updateCategory(id) {
+    try {
+        let response = await fetch(`/api/categories/${id}`); 
+        let data = await response.json();
+        if(!response.ok){
+            alert(data.message);
+            
+        }else{
+            document.getElementById('id').value = data.id;
+            document.getElementById('nameInput').value = data.categoryName;
+        }          
+        }
+     catch (err) {
+        alert(err);
+    }
+}
+
+function addOrEdit(){
+    let id = document.getElementById('id').value;
+    if(id){
+        EditCategory(id);
+    }else{
+        addNewCategory();
+    }
+}
+
+async function EditCategory(id) {
+              try {
+                let categoryName = document.getElementById('nameInput').value;      
+                console.log(categoryName);
+
+                let response = await fetch(`/api/categories/${id}`,{
+                    method: 'PATCH',
+                    headers: {'Content-type':'application/json'},
+                    body: JSON.stringify({categoryName})
+                })
+                if (!response.ok) {
+            // אם השרת מחזיר שגיאה, נקרא אותה כטקסט כדי לראות מה קרה
+            let text = await response.text(); 
+            console.error("Server Error:", text); // תסתכל בקונסול של הדפדפן מה מודפס כאן
+            alert("שגיאת שרת: ראה קונסול");
+            return;
+        }
+                    getCategories();
+                    
+                 document.getElementById('nameInput').value = "";
+            } catch (err) {
+                alert(err);
+            }
+        }
+
       getCategories();
