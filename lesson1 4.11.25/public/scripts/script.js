@@ -51,6 +51,7 @@ function createTable(data) {
           }
           document.getElementById("tableBody").innerHTML = txt;
       }
+      
       async function taskDone(id,element) {
               try {
                 let isDone = element.checked;                
