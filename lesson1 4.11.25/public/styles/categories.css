@@ -1,0 +1,28 @@
+#greating{
+    color: blue;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#titleTable{
+    text-align: center;
+    color: green;
+    margin-top: 20px;
+}
+#tasksTable{
+    width: 60%;
+    margin: auto;
+    /* margin-top: 10px; */
+    /* border-collapse: collapse; */
+}
+#inputText{
+    text-align: center;
+    margin-top: 20px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #6de6a5;
+    margin: 0;
+    padding: 0;
+}
