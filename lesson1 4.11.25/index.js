@@ -17,6 +17,11 @@ app.use('/api/users', require('./routes/users_R'));
 app.use('/api/auth', require('./routes/auth_R'));
 app.use('/api/categories', require('./routes/categories_R'));
 app.use('/api/tasks', require('./routes/tasks_R'));
+// נתיב לדף הקטגוריות
+app.get('/categories', (req, res) => {
+    // וודא שהקובץ categories.html נמצא בתוך public או public/pages
+    res.sendFile(path.join(__dirname, 'public', 'pages', 'categories.html'));
+});
 app.use('/', require('./routes/pages_R'));
 
 
