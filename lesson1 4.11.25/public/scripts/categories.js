@@ -42,4 +42,36 @@ function createTable(data) {
           document.getElementById("tableBody").innerHTML = txt;
       }
 
+      async function addNewCategory() {
+    try {
+        let name = document.getElementById('nameInput').value;
+        // אין צורך לשלוח user_id, השרת לוקח אותו מההתחברות (req.user.id)
+
+        let response = await fetch('/api/categories', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                categoryName: name // השינוי החשוב: name -> categoryName
+            })
+        });
+
+        let data = await response.json();
+
+        if (response.status === 201) {
+            alert("Category added successfully");
+            document.getElementById('nameInput').value = "";
+            getCategories(); // רענון הטבלה
+        } else {
+            // השרת מחזיר לפעמים error ולפעמים message, נציג את מה שיש
+            alert(data.message || data.error);
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert("Server error");
+    }
+}
+
       getCategories();
