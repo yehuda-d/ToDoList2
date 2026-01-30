@@ -7,7 +7,7 @@ async function addUser(req, res) {
     try {
         let name = req.body.name;
         let email = req.body.email;
-        let userName = req.body.userName;
+        let userName = req.body.username;
         let pass = req.pass; // מה שמגיע מהמיידלוור אחרי ההצפנה
 
         let user = await getByUserName(userName);

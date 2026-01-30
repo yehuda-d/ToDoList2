@@ -56,9 +56,9 @@ async function addNewUser() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name,
-                email,
-                userName,
+                name: name,
+                email: email,
+                username: userName,
                 pass: password
             })
         });
