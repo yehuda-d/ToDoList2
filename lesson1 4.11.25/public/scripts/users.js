@@ -58,7 +58,7 @@ async function addNewUser() {
             body: JSON.stringify({
                 name: name,
                 email: email,
-                username: userName,
+                userName: userName,
                 pass: password
             })
         });

@@ -14,7 +14,7 @@ async function addUser(req, res) {
         console.log(req.pass);
         
         if(user){
-            return res.status(409).json({message:`username ${userName} already exists`});
+            return res.status(409).json({message:`userName ${userName} already exists`});
         }
 
         user = await getByEmail(email);
